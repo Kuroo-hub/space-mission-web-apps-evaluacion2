@@ -1,0 +1,4 @@
+body { margin: 0; }
+.app-background { min-height: 100vh; background: #eef2f7; }
+.intro-text { max-width: 520px; }
+.game-card { max-width: 480px; margin: 0 auto; border: 0; border-radius: 12px; }
