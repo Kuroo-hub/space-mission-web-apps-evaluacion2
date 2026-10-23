@@ -21,7 +21,7 @@ app.post("/adjust", (req, res) =>{
     // Validaciones... typeof es un operador que permite conocer el tipo de dato de la variable o dato entregado.
     if(typeof number !== "number"|| !Number.isInteger(number) || number < 1 || number > 100)
         {
-            return res.status(400).json({error: "Please provide a number beetween 1 and 100."})
+            return res.status(400).json({error: "Porfavor ingresar un numero entre 1 y 100."})
         }
     
     // Variables para guardar el mensaje y facilitar el uso del frontend
@@ -29,13 +29,13 @@ app.post("/adjust", (req, res) =>{
     let stabilized = false;
     if(number < stabilizationTemperature)
         {
-            result = "The reactor is too cold. Increase the temperature.";
+            result = "El reactor esta frio. Sube la temperatura.";
         }else if(number > stabilizationTemperature)
             {
-                result = "The reactor is too hot. Decrease the temperature";
+                result = "El reactor esta caliente. Baja la temperatura";
             }else 
                 {
-                    result = "The reactor is stable. No adjustment needed.";
+                    result = "El reactor esta estable. No es necesario ajustarla.";
                     stabilized = true;
                 }
     
@@ -45,7 +45,7 @@ app.post("/adjust", (req, res) =>{
 // Ruta para reiniciar el numero
 app.post("/reboot", (req, res) => {
     stabilizationTemperature = generateRandomNumber();
-    res.status(200).json({message: "Reactor rebooted. New stabilization temperature generated."});
+    res.status(200).json({message: "Reactor reiniciado. Nueva estabilizacion de temperatura generada."});
 });
 
 app.listen(3000, () => {
