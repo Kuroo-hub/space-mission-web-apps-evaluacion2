@@ -14,7 +14,7 @@ export async function adjustTemperature(number)
 
     if(!response.ok)
         {
-            throw new Error(data.error || "Error adjusting temperature.");
+            throw new Error(data.error || "Error al ajustar temperatura.");
         }
 
     return data;
@@ -28,7 +28,7 @@ export async function rebootReactor()
 
     if(!response.ok)
         {
-            throw new Error("Error restarting reactor.");
+            throw new Error("Error al reiniciar el reactor.");
         }
     
     return response.json();

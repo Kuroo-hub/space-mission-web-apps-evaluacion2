@@ -20,7 +20,7 @@ export default function App() {
     const number = Number(temperature);
 
     if(temperature.trim() === "" || !Number.isInteger(number) || number < 1 || number > 100){
-      setMessage("Please provide a number beetween 1 and 100.");
+      setMessage("Porfavor ingresar un numero entre 1 y 100.");
       return;
     }
 
@@ -62,7 +62,7 @@ export default function App() {
       await rebootReactor();
       
       setTemperature("");
-      setMessage("Reactor rebooted. New stabilization temperature generated.");
+      setMessage("Reactor reiniciado. Nueva estabilizacion de temperatura generada.");
       setHistory([]);
       setStabilized(false);
     }
