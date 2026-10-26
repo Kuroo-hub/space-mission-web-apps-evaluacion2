@@ -1,13 +1,18 @@
-import React from 'react';
-import { Card, CardBody, CardText } from 'reactstrap';
+import { Card, CardBody, CardText } from "reactstrap";
 
 export default function EmptyCargoState() {
   return (
-    <Card className="text-center my-4 border-dashed p-4 bg-light">
-      <CardBody>
-        <span style={{ fontSize: '3rem' }}></span>
-        <CardText className="text-muted mt-2">
-          La bodega de carga está vacía. Selecciona un suministro del catálogo para cargarlo a la nave.
+    <Card className="text-center border-0 bg-light my-3">
+      <CardBody className="py-4">
+        <div className="fs-1 mb-2">📦</div>
+
+        <h3 className="h6 fw-bold">
+          Bodega vacía
+        </h3>
+
+        <CardText className="text-secondary mb-0">
+          Selecciona un suministro del catálogo para
+          añadirlo a la nave.
         </CardText>
       </CardBody>
     </Card>
