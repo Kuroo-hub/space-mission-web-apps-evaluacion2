@@ -1,4 +1,4 @@
-import { getInventory } from "../services/logisticsService.js";
+import { getInventory} from "../services/logisticsService.js";
 
 export async function getInventoryController(req, res)
 {
