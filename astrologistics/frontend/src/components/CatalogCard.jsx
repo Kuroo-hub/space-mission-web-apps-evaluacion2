@@ -6,8 +6,9 @@ export default function CatalogCard({ item, onAddCargo }) {
   const isAgotado = item.stock <= 0;
 
   const handleAdd = () => {
-    if (quantity > 0 && quantity <= item.stock) {
-      onAddCargo(item, Number(quantity));
+    const numQuantity = Number(quantity);
+    if (numQuantity > 0) {
+      onAddCargo(item, numQuantity);
     }
   };
 

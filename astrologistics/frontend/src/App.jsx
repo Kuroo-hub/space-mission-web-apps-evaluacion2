@@ -3,7 +3,7 @@ import { Container, Row, Col, Navbar, NavbarBrand, Card, CardBody, CardTitle, Ta
 import AlertManager from './components/AlertManager';
 import EmptyCargoState from './components/EmptyCargoState';
 import CatalogCard from './components/CatalogCard';
-import CapacityBar from './components/CapacityBar';
+import CapacityBar from './components/Capacitybar';
 export default function App() {
   // Datos simulados (Mock state)
   const [credits, setCredits] = useState(1500);
@@ -20,22 +20,26 @@ export default function App() {
     { id: 1, name: 'Tanque de Oxígeno', quantity: 4, weightTotal: 120, costTotal: 600 }
   ]);
 
-  const [alert, setAlert] = useState(null);
-
-  // Simulación de interacción visual
-  const handleAddCargo = (item, quantity) => {
-    const totalCost = item.cost * quantity;
-    const totalWeight = item.weight * quantity;
-
-    if (credits < totalCost) {
-      setAlert({ type: 'danger', message: '¡Créditos insuficientes para realizar esta carga!' });
-      return;
-    }
-
-    if (currentCapacity + totalWeight > maxCapacity) {
-      setAlert({ type: 'danger', message: '¡Capacidad máxima de la nave excedida!' });
-      return;
-    }
+const [alert, setAlert] = useState({ type: 'warning', message: 'Alerta de prueba: Sistema de navegación listo.' });
+ const handleAddCargo = (item, quantity) => {
+  // Validación de stock disponible
+  if (quantity > item.stock) {
+    setAlert({ 
+      type: 'danger', 
+      message: `¡Cantidad no válida! Solo hay ${item.stock} unidad(es) disponible(s) de ${item.name}.` 
+    });
+    return;
+  }
+  const totalCost = item.cost * quantity;
+  const totalWeight = item.weight * quantity;
+  if (credits < totalCost) {
+    setAlert({ type: 'danger', message: '¡Créditos insuficientes para realizar esta carga!' });
+    return;
+  }
+  if (currentCapacity + totalWeight > maxCapacity) {
+    setAlert({ type: 'danger', message: '¡Capacidad máxima de la nave excedida!' });
+    return;
+  }
 
     // Actualizar créditos y capacidad
     setCredits(prev => prev - totalCost);
