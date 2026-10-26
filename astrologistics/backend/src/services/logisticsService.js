@@ -1,18 +1,23 @@
-import { readFile, writeFile} from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 
 const INVENTORY_PATH = new URL(
     "../data/inventory.json",
     import.meta.url
 );
 
-const CARGO_PATH = new URL 
-(
-    "../data/cargo.json",
-    import.meta.url
-)
+const CARGO_PATH = new URL
+    (
+        "../data/cargo.json",
+        import.meta.url
+    )
 
-async function saveJSON(path, data)
-{
+async function readJSON(path) {
+    const content = await readFile(path, "utf-8");
+
+    return JSON.parse(content);
+}
+
+async function saveJSON(path, data) {
     await writeFile(
         path,
         JSON.stringify(data, null, 2),
@@ -20,69 +25,57 @@ async function saveJSON(path, data)
     );
 }
 
-// Aqui obtendremos el inventario
-export async function getInventory() 
-{
-    const content = await readFile(INVENTORY_PATH, "utf-8");
 
-    return JSON.parse(content);
+// Aqui obtendremos el inventario
+export async function getInventory() {
+    return readJSON(INVENTORY_PATH);
 }
 
 // Aca la carga de la nave
-export async function getCargo()
-{
-    const content = await readFile(CARGO_PATH, "utf-8");
-
-    return JSON.parse(content);
+export async function getCargo() {
+    return readJSON(CARGO_PATH);
 }
 
 
-export async function addCargo(equipmentId, quantity)
-{
+export async function addCargo(equipmentId, quantity) {
     const inventory = await getInventory();
     const cargo = await getCargo();
 
-    if(!Number.isInteger(quantity) || quantity <= 0)
-        {
-            throw new Error("La cantidad debe ser un entero positivo.");
-        }
-    
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+        throw new Error("La cantidad debe ser un entero positivo.");
+    }
+
     const product = inventory.find(
         item => item.id === equipmentId
     );
 
-    if(!product)
-        {
-            throw new Error("El suministro no existe.");
-        }
+    if (!product) {
+        throw new Error("El suministro no existe.");
+    }
 
-    if(product.stock < quantity)
-        {
-            throw new Error("Stock insuficiente.");
-        }
+    if (product.stock < quantity) {
+        throw new Error("Stock en base insuficiente.");
+    }
 
     const cost = product.price * quantity;
 
-    if(cost > cargo.creditos)
-        {
-            throw new Error("Créditos insuficientes");
-        }
-    
+    if (cost > cargo.credits) {
+        throw new Error("Créditos insuficientes");
+    }
+
     const cargoItem = cargo.itemsCargados.find(
         item => item.id === equipmentId
     );
 
-    if(cargoItem)
-        {
-            cargoItem.quantity += quantity;
-        }else
-            {
-                cargo.itemsCargados.push({
-                    id: equipmentId,
-                    quantity: quantity
-                });
-            }
-    
+    if (cargoItem) {
+        cargoItem.quantity += quantity;
+    } else {
+        cargo.itemsCargados.push({
+            id: equipmentId,
+            quantity: quantity
+        });
+    }
+
     product.stock -= quantity;
 
     cargo.total += cost;
@@ -105,11 +98,13 @@ export async function updateCargoUnits(equipmentId, newQuantity) {
     }
 
     const product = inventory.find(item => item.id === equipmentId);
+
     if (!product) {
         throw new Error("El suministro no existe.");
     }
 
     const cargoItem = cargo.itemsCargados.find(item => item.id === equipmentId);
+
     if (!cargoItem) {
         throw new Error("El suministro no está en la carga.");
     }
@@ -118,7 +113,7 @@ export async function updateCargoUnits(equipmentId, newQuantity) {
     const diff = newQuantity - currentQuantity; // Diferencia de unidades
 
     if (diff > 0) {
-    
+
         if (product.stock < diff) {
             throw new Error("Stock en base insuficiente");
         }
@@ -126,7 +121,7 @@ export async function updateCargoUnits(equipmentId, newQuantity) {
         if (cost > cargo.credits) {
             throw new Error("Créditos insuficientes para esta cantidad");
         }
-        
+
         product.stock -= diff;
         cargo.credits -= cost;
         cargo.total += cost;
@@ -143,7 +138,7 @@ export async function updateCargoUnits(equipmentId, newQuantity) {
 
     await saveJSON(INVENTORY_PATH, inventory);
     await saveJSON(CARGO_PATH, cargo);
-    
+
     return cargo;
 }
 
@@ -174,6 +169,7 @@ export async function removeCargo(equipmentId) {
 
     await saveJSON(INVENTORY_PATH, inventory);
     await saveJSON(CARGO_PATH, cargo);
-    
+
     return cargo;
 }
+
