@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Tanque de Oxigeno XL",
+    "price": 50,
+    "stock": 5,
+    "category": "Soporte Vital"
+  },
+  {
+    "id": 2,
+    "name": "Kit de Alimentos",
+    "price": 30,
+    "stock": 10,
+    "category": "Alimentacion"
+  },
+  {
+    "id": 3,
+    "name": "Botiquin Medico",
+    "price": 75,
+    "stock": 4,
+    "category": "Salud"
+  }
+]
