@@ -27,8 +27,8 @@ export async function addCargoController(req, res) {
         const validationErrors = [
             "La cantidad debe ser un entero positivo.",
             "El suministro no existe.",
-            "Stock en base insuficiente",
-            "Créditos insuficientes"
+            "Stock en base insuficiente.",
+            "Créditos insuficientes."
         ];
 
         if (validationErrors.includes(error.message)) {

@@ -60,7 +60,7 @@ export async function addCargo(equipmentId, quantity) {
     const cost = product.price * quantity;
 
     if (cost > cargo.credits) {
-        throw new Error("Créditos insuficientes");
+        throw new Error("Créditos insuficientes.");
     }
 
     const cargoItem = cargo.itemsCargados.find(
